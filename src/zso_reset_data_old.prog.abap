@@ -102,7 +102,13 @@ DATA: lv_argument TYPE seqg3-garg,
       lv_subrc    TYPE sy-subrc,
       lt_seqg3    TYPE TABLE OF seqg3.
 
-SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = p_vbeln.
+* Start-Antigravity made this changes-(15.01.2026)
+*   SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = p_vbeln.
+    SELECT * FROM vbfa INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE vbelv = p_vbeln ORDER BY vbelv.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO ls_vbfa INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
 IF sy-subrc = 0.
   lv_deliveryno = ls_vbfa-vbeln.
   lv_vbtyp = 'J'.

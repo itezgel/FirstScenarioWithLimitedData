@@ -57,7 +57,13 @@ ELSE.
   NEW-LINE.
   LOOP AT lt_vbak INTO ls_vbak.
     lv_seqno = lv_seqno + 1.
-    SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = ls_vbak-vbeln AND vbtyp_n = 'M'.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = ls_vbak-vbeln AND vbtyp_n = 'M'.
+    SELECT * FROM vbfa INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE vbelv = ls_vbak-vbeln AND vbtyp_n = 'M' ORDER BY vbeln.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO ls_vbfa INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
     IF sy-subrc IS INITIAL.
       SELECT SINGLE fkdat INTO lv_fkdat FROM vbrk WHERE vbeln = ls_vbfa-vbeln.
       SET UPDATE TASK LOCAL.

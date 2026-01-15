@@ -99,7 +99,13 @@ ELSE.
 
 *--------------Reverting PGI against Delivery No---------------------*
 *WAIT UP TO 10 SECONDS.
-    SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = ls_vbak-vbeln and vbtyp_n = 'J'.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE * FROM vbfa INTO ls_vbfa WHERE vbelv = ls_vbak-vbeln and vbtyp_n = 'J'.
+    SELECT * FROM vbfa INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE vbelv = ls_vbak-vbeln AND vbtyp_n = 'J' ORDER BY vbeln.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO ls_vbfa INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
       lv_postingdate = ls_vbak-vdatu.
     IF sy-subrc = 0.
       lv_deliveryno = ls_vbfa-vbeln.

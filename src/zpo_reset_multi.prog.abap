@@ -42,13 +42,25 @@ IF  lt_logging[] IS NOT INITIAL.
     CLEAR : process_flag.
     lv_po = ls_logging-ebeln.
 ***    reverse Invoice
-    SELECT SINGLE * INTO ls_ekbe FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po AND shkzg = 'H'. " H - reversal doc "VGABE = 2 ==> Invoice.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE * INTO ls_ekbe FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po AND shkzg = 'H'.
+    SELECT * FROM ekbe INTO TABLE @DATA(lt_x004) UP TO 1 ROWS WHERE vgabe = 2 AND ebeln = lv_po AND shkzg = 'H' ORDER BY belnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x004 INTO ls_ekbe INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) " H - reversal doc "VGABE = 2 ==> Invoice.
     IF sy-subrc IS INITIAL. " Already reveresed.
       WRITE : lv_po ,'invoice already reversed with', ls_ekbe-belnr , ls_ekbe-gjahr.
       NEW-LINE.
       process_flag = 'S'.
     ELSE.
-      SELECT SINGLE * INTO ls_ekbe FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po . "VGABE = 2 ==> Invoice
+* Start-Antigravity made this changes-(15.01.2026)
+*       SELECT SINGLE * INTO ls_ekbe FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po .
+      SELECT * FROM ekbe INTO TABLE @DATA(lt_x003) UP TO 1 ROWS WHERE vgabe = 2 AND ebeln = lv_po ORDER BY belnr.
+      IF sy-subrc eq 0.
+        READ TABLE lt_x003 INTO ls_ekbe INDEX 1.
+      ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) "VGABE = 2 ==> Invoice
       IF sy-subrc IS INITIAL.
         CALL FUNCTION 'BAPI_INCOMINGINVOICE_CANCEL'
           EXPORTING
@@ -81,12 +93,24 @@ IF  lt_logging[] IS NOT INITIAL.
     ENDIF.  " end of reveral exists
 *   ****     cancel GR
     CLEAR: ls_ekbe,it_return,invoice,inv_year.
-    SELECT SINGLE * INTO ls_ekbe  FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po AND shkzg = 'H'. " H - reversal doc " "VGABE = 1 ==> GR
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE * INTO ls_ekbe  FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po AND shkzg = 'H'.
+    SELECT * FROM ekbe INTO TABLE @DATA(lt_x002) UP TO 1 ROWS WHERE vgabe = 1 AND ebeln = lv_po AND shkzg = 'H' ORDER BY belnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x002 INTO ls_ekbe INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) " H - reversal doc " "VGABE = 1 ==> GR
     IF sy-subrc IS INITIAL . " already reveresed
       WRITE : lv_po ,'GR reversal already completed with ' , ls_ekbe-belnr , ls_ekbe-gjahr.
       process_flag = 'S'.
     ELSE.
-      SELECT SINGLE * INTO ls_ekbe  FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po . "VGABE = 1 ==> GR
+* Start-Antigravity made this changes-(15.01.2026)
+*       SELECT SINGLE * INTO ls_ekbe  FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po .
+      SELECT * FROM ekbe INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE vgabe = 1 AND ebeln = lv_po ORDER BY belnr.
+      IF sy-subrc eq 0.
+        READ TABLE lt_x001 INTO ls_ekbe INDEX 1.
+      ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) "VGABE = 1 ==> GR
       IF sy-subrc IS INITIAL.
         CALL FUNCTION 'BAPI_GOODSMVT_CANCEL'
           EXPORTING

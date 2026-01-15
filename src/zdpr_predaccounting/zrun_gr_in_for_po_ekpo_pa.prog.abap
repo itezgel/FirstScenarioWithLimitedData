@@ -42,7 +42,14 @@ IF  lt_logging[] IS NOT INITIAL.
   LOOP AT lt_logging INTO ls_logging .
     CLEAR : lv_po, lv_gr, lv_invoice.
     lv_po = ls_logging-ebeln.
-    SELECT SINGLE belnr INTO lv_gr FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po . "VGABE = 1 ==> GR
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE belnr INTO lv_gr FROM ekbe WHERE vgabe = 1 AND ebeln = lv_po .
+    SELECT belnr FROM ekbe UP TO 1 ROWS INTO TABLE @DATA(lt_x002) WHERE vgabe = 1 AND ebeln = lv_po ORDER BY belnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x002 INTO DATA(ls_x002) INDEX 1.
+      lv_gr = ls_x002-belnr.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) "VGABE = 1 ==> GR
     IF sy-subrc IS NOT INITIAL. " GR does not exist
       wa_gr-po_no =  lv_po.
       APPEND wa_gr TO it_gr.
@@ -98,7 +105,14 @@ IF  lt_logging[] IS NOT INITIAL.
     ENDIF.  """ End of GR Check.
 
 *****    Check if Invoice Created.
-    SELECT SINGLE belnr INTO lv_invoice FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po . "VGABE = 2 ==> Invoice
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE belnr INTO lv_invoice FROM ekbe WHERE vgabe = 2 AND ebeln = lv_po .
+    SELECT belnr FROM ekbe UP TO 1 ROWS INTO TABLE @DATA(lt_x001) WHERE vgabe = 2 AND ebeln = lv_po ORDER BY belnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO DATA(ls_x001) INDEX 1.
+      lv_invoice = ls_x001-belnr.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026) "VGABE = 2 ==> Invoice
     IF sy-subrc IS NOT INITIAL.
       CALL FUNCTION 'ZCREATEINVOICE_FROM_PO_PA'
         EXPORTING

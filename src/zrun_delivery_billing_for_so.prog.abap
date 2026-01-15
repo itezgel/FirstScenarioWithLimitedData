@@ -114,7 +114,14 @@ ELSE.
 *    *      CALL FUNCTION 'ZCREATEDELIVERYDOC_DATAGEN'
 *    check if delv doc exists.
 
-    SELECT SINGLE vbeln INTO lv_delvdoc FROM vbfa WHERE vbelv = lv_sonum AND vbtyp_n = 'J'.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE vbeln INTO lv_delvdoc FROM vbfa WHERE vbelv = lv_sonum AND vbtyp_n = 'J'.
+    SELECT vbeln FROM vbfa INTO TABLE @DATA(lt_x002) UP TO 1 ROWS WHERE vbelv = lv_sonum AND vbtyp_n = 'J' ORDER BY vbeln.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x002 INTO DATA(ls_x002) INDEX 1.
+      lv_delvdoc = ls_x002-vbeln.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
     IF  sy-subrc IS NOT INITIAL .
       CALL FUNCTION 'ZDELIVERY_PGI_DATAGEN'
         EXPORTING
@@ -183,7 +190,14 @@ ELSE.
       NEW-LINE.
     ELSE.
 **      check if bill done.
-      SELECT SINGLE vbeln INTO lv_billdoc FROM vbfa WHERE vbelv = lv_sonum AND vbtyp_n = 'M'.
+* Start-Antigravity made this changes-(15.01.2026)
+*       SELECT SINGLE vbeln INTO lv_billdoc FROM vbfa WHERE vbelv = lv_sonum AND vbtyp_n = 'M'.
+      SELECT vbeln FROM vbfa INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE vbelv = lv_sonum AND vbtyp_n = 'M' ORDER BY vbeln.
+      IF sy-subrc eq 0.
+        READ TABLE lt_x001 INTO DATA(ls_x001) INDEX 1.
+        lv_billdoc = ls_x001-vbeln.
+      ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
       IF sy-subrc IS NOT INITIAL.
         CALL FUNCTION 'ZCREATEBILLINGDOC_DATAGEN'
           EXPORTING

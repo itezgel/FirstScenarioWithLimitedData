@@ -29,7 +29,13 @@ ENDIF.
 *  write : lv_count.
 *  NEW-LINE.
 LOOP AT lt_vbak INTO ls_vbak.
-  SELECT SINGLE * FROM zdemo_data INTO ls_tab WHERE collect_no = ls_vbak-bstnk.
+* Start-Antigravity made this changes-(15.01.2026)
+*   SELECT SINGLE * FROM zdemo_data INTO ls_tab WHERE collect_no = ls_vbak-bstnk.
+    SELECT * FROM zdemo_data INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE collect_no = ls_vbak-bstnk ORDER BY dateposted_str.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO ls_tab INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
   IF sy-subrc IS INITIAL.
     IF ls_tab-status NE 'S'.
       UPDATE zdemo_data SET status = 'S' docstatus = '3' objectid = 'Processed Successfully-I065658'

@@ -46,7 +46,13 @@ IF  lt_aufk[] IS NOT INITIAL.
     CLEAR: order_number, ls_datagen_log.
     order_number = ls_aufk-aufnr.
 ***to update log
-    SELECT SINGLE * FROM zdatagen_logging INTO ls_datagen_log WHERE documentno =  order_number AND transaction_type = 'PROD'." AND result_flag = 'E'.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE * FROM zdatagen_logging INTO ls_datagen_log WHERE documentno =  order_number AND transaction_type = 'PROD'." AND result_flag = 'E'.
+    SELECT * FROM zdatagen_logging INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE documentno =  order_number AND transaction_type = 'PROD' ORDER BY documentno.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO ls_datagen_log INDEX 1.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
 
     wa_orders-order_number = ls_aufk-aufnr. "order_number.
     APPEND wa_orders TO it_orders.

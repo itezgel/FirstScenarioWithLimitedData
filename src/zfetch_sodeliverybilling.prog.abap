@@ -108,9 +108,30 @@ LOOP AT  lt_matlist INTO ls_matlist .
     ls_docs-qty = ls_vbap-kwmeng.
     qty = qty +  ls_docs-qty.
     select single audat kunnr from vbak into  ( ls_docs-audat, ls_docs-kunnr ) where VBELN = ls_docs-so.
-    SELECT SINGLE bstkd INTO ls_docs-ref_po FROM vbkd WHERE vbeln = ls_docs-so .
-    SELECT SINGLE vbeln INTO ls_docs-delivery FROM lips WHERE vgbel = ls_docs-so .
-    SELECT SINGLE vbeln INTO ls_docs-billing FROM vbrp WHERE posnr = '000010' AND aubel = ls_docs-so AND vgbel = ls_docs-delivery.
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE bstkd INTO ls_docs-ref_po FROM vbkd WHERE vbeln = ls_docs-so .
+    SELECT bstkd FROM vbkd INTO TABLE @DATA(lt_x003) UP TO 1 ROWS WHERE vbeln = ls_docs-so ORDER BY posnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x003 INTO DATA(ls_x003) INDEX 1.
+      ls_docs-ref_po = ls_x003-bstkd.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE vbeln INTO ls_docs-delivery FROM lips WHERE vgbel = ls_docs-so .
+    SELECT vbeln FROM lips INTO TABLE @DATA(lt_x002) UP TO 1 ROWS WHERE vgbel = ls_docs-so ORDER BY vbeln posnr.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x002 INTO DATA(ls_x002) INDEX 1.
+      ls_docs-delivery = ls_x002-vbeln.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
+* Start-Antigravity made this changes-(15.01.2026)
+*     SELECT SINGLE vbeln INTO ls_docs-billing FROM vbrp WHERE posnr = '000010' AND aubel = ls_docs-so AND vgbel = ls_docs-delivery.
+    SELECT vbeln FROM vbrp INTO TABLE @DATA(lt_x001) UP TO 1 ROWS WHERE posnr = '000010' AND aubel = ls_docs-so AND vgbel = ls_docs-delivery ORDER BY vbeln.
+    IF sy-subrc eq 0.
+      READ TABLE lt_x001 INTO DATA(ls_x001) INDEX 1.
+      ls_docs-billing = ls_x001-vbeln.
+    ENDIF.
+* Finish-Antigravity made this changes-(15.01.2026)
     APPEND ls_docs TO lt_docs.
     clear: ls_vbap.
     clear ls_docs.
