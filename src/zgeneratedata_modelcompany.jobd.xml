@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_JOBD" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <JOBD>
+    <NAME>ZGENERATEDATA_MODELCOMPANY</NAME>
+    <IS_ACTIVE>X</IS_ACTIVE>
+    <BTCJOB_NAME>ZGENERATEDATA_MODELCOMPANY</BTCJOB_NAME>
+    <CHANGEDBY>BPINST</CHANGEDBY>
+    <PROD_CLIENT>X</PROD_CLIENT>
+    <IS_SCOPE>X</IS_SCOPE>
+    <MAX_RUNTIME>02</MAX_RUNTIME>
+    <ABORTION_CODE>T</ABORTION_CODE>
+    <IS_TIME_BASED>X</IS_TIME_BASED>
+    <START_TIME>23:00:00</START_TIME>
+    <BEGIN_MONTH>X</BEGIN_MONTH>
+    <RECUR_CODE>MO</RECUR_CODE>
+    <RECUR_VALUE>01</RECUR_VALUE>
+   </JOBD>
+  </asx:values>
+ </asx:abap>
+</abapGit>

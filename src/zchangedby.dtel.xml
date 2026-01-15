@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_DTEL" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <DD04V>
+    <ROLLNAME>ZCHANGEDBY</ROLLNAME>
+    <DOMNAME>UNAME</DOMNAME>
+    <HEADLEN>19</HEADLEN>
+    <SCRLEN1>09</SCRLEN1>
+    <SCRLEN2>19</SCRLEN2>
+    <SCRLEN3>19</SCRLEN3>
+    <DTELMASTER>E</DTELMASTER>
+    <REFKIND>D</REFKIND>
+   </DD04V>
+   <I18N_LANGS>
+    <LANGU>E</LANGU>
+   </I18N_LANGS>
+   <DD04_TEXTS>
+    <item>
+     <DDLANGUAGE>E</DDLANGUAGE>
+     <DDTEXT>Changed By User</DDTEXT>
+     <REPTEXT>Change by User Name</REPTEXT>
+     <SCRTEXT_S>Change By</SCRTEXT_S>
+     <SCRTEXT_M>Change by User Name</SCRTEXT_M>
+     <SCRTEXT_L>Change by User Name</SCRTEXT_L>
+    </item>
+   </DD04_TEXTS>
+  </asx:values>
+ </asx:abap>
+</abapGit>

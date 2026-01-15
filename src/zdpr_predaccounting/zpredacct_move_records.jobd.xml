@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_JOBD" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <JOBD>
+    <NAME>ZPREDACCT_MOVE_RECORDS</NAME>
+    <IS_ACTIVE>X</IS_ACTIVE>
+    <BTCJOB_NAME>ZPREDACCT_MOVE_RECORDS</BTCJOB_NAME>
+    <CHANGEDBY>BPINST</CHANGEDBY>
+    <PROD_CLIENT>X</PROD_CLIENT>
+    <IS_SCOPE>X</IS_SCOPE>
+    <MAX_RUNTIME>01</MAX_RUNTIME>
+    <ABORTION_CODE>I</ABORTION_CODE>
+    <IS_EVENT_BASED>X</IS_EVENT_BASED>
+   </JOBD>
+  </asx:values>
+ </asx:abap>
+</abapGit>
